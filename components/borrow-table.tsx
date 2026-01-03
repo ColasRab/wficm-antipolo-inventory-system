@@ -8,7 +8,6 @@ import { Card, CardContent } from "@/components/ui/card"
 
 interface BorrowRecord {
   id: number
-  borrower_code: string
   borrower_name: string
   item: {
     item_code: string
@@ -85,7 +84,6 @@ export function BorrowTable({
                       <TableRow key={record.id}>
                         <TableCell className="font-medium">{record.item.item_code}</TableCell>
                         <TableCell>{record.item.item_name}</TableCell>
-                        <TableCell>{record.borrower_code}</TableCell>
                         <TableCell>{record.borrower_name}</TableCell>
                         <TableCell>{formatDate(record.time_borrowed)}</TableCell>
                         <TableCell className="text-right">
