@@ -8,13 +8,11 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 
 interface BorrowRecord {
   id: number
-  borrower_code: string
   borrower_name: string
-  item_id: number
   item: {
     item_code: string
     item_name: string
-  }
+  }  // single object, not array
   time_borrowed: string
   time_put_back: string | null
 }
@@ -28,32 +26,44 @@ export default function BorrowPage() {
     fetchBorrowRecords()
   }, [])
 
-  async function fetchBorrowRecords() {
-    setLoading(true)
-    const { data } = await supabase
-      .from("borrower")
-      .select(
-        `
-        id,
-        borrower_code,
-        borrower_name,
-        item_id,
-        time_borrowed,
-        time_put_back,
-        items:item_id(item_code, item_name)
-      `,
-      )
-      .order("time_borrowed", { ascending: false })
+async function fetchBorrowRecords() {
+  setLoading(true)
 
-    if (data) {
-      const mappedData = data.map((record: any) => ({
-        ...record,
-        item: record.items,
-      }))
-      setBorrowRecords(mappedData)
-    }
+  const { data, error } = await supabase
+    .from("borrower")
+    .select(`
+      id,
+      borrower_name,
+      item_code,
+      time_borrowed,
+      time_put_back,
+      items(item_code, item_name)
+    `)
+    .order("time_borrowed", { ascending: false })
+
+  if (error) {
+    console.error("Error fetching borrow records:", error)
     setLoading(false)
+    return
   }
+
+  if (data) {
+    const mappedData = data
+      .filter((record: any) => record.items)
+      .map((record: any) => ({
+        id: record.id,
+        borrower_name: record.borrower_name,
+        item: record.items,
+        time_borrowed: record.time_borrowed,
+        time_put_back: record.time_put_back,
+      }))
+    setBorrowRecords(mappedData)
+  }
+
+  setLoading(false)
+}
+
+
 
   return (
     <main className="min-h-screen bg-background">

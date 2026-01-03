@@ -73,10 +73,9 @@ export function BorrowTable({
                     <TableRow>
                       <TableHead>Item Code</TableHead>
                       <TableHead>Item Name</TableHead>
-                      <TableHead>Borrower Code</TableHead>
                       <TableHead>Borrower Name</TableHead>
                       <TableHead>Borrowed Date</TableHead>
-                      <TableHead className="text-right">Action</TableHead>
+                      <TableHead className="text-center">Action</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -86,7 +85,7 @@ export function BorrowTable({
                         <TableCell>{record.item.item_name}</TableCell>
                         <TableCell>{record.borrower_name}</TableCell>
                         <TableCell>{formatDate(record.time_borrowed)}</TableCell>
-                        <TableCell className="text-right">
+                        <TableCell className="text-center">
                           <Button
                             onClick={() => handleReturn(record.id)}
                             disabled={returningId === record.id}
