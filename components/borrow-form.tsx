@@ -12,7 +12,6 @@ import { Label } from "@/components/ui/label"
 export function BorrowForm({ onSuccess }: { onSuccess: () => void }) {
   const [itemCode, setItemCode] = useState("")
   const [borrowerName, setBorrowerName] = useState("")
-  const [borrowerCode, setBorrowerCode] = useState("")
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState("")
   const supabase = createClient()
@@ -22,7 +21,7 @@ export function BorrowForm({ onSuccess }: { onSuccess: () => void }) {
     setError("")
     setLoading(true)
 
-    if (!itemCode || !borrowerName || !borrowerCode) {
+    if (!itemCode || !borrowerName) {
       setError("All fields are required")
       setLoading(false)
       return
@@ -40,7 +39,6 @@ export function BorrowForm({ onSuccess }: { onSuccess: () => void }) {
     // Create borrow record
     const { error: borrowError } = await supabase.from("borrower").insert([
       {
-        borrower_code: borrowerCode,
         borrower_name: borrowerName,
         item_id: items.id,
       },
@@ -51,7 +49,6 @@ export function BorrowForm({ onSuccess }: { onSuccess: () => void }) {
     } else {
       setItemCode("")
       setBorrowerName("")
-      setBorrowerCode("")
       onSuccess()
     }
 
@@ -76,19 +73,6 @@ export function BorrowForm({ onSuccess }: { onSuccess: () => void }) {
               className="mt-1"
             />
           </div>
-
-          <div>
-            <Label htmlFor="borrower-code">Borrower Code</Label>
-            <Input
-              id="borrower-code"
-              placeholder="Enter borrower code"
-              value={borrowerCode}
-              onChange={(e) => setBorrowerCode(e.target.value)}
-              disabled={loading}
-              className="mt-1"
-            />
-          </div>
-
           <div>
             <Label htmlFor="borrower-name">Borrower Name</Label>
             <Input
