@@ -17,7 +17,6 @@ interface Item {
 const CONDITIONS = [
   { value: "good", label: "Good Condition", color: "bg-emerald-100 text-emerald-800" },
   { value: "damaged_working", label: "Damaged But Working", color: "bg-blue-100 text-blue-800" },
-  { value: "needs_fixing", label: "Needs Fixing", color: "bg-amber-100 text-amber-800" },
   { value: "damaged", label: "Damaged", color: "bg-orange-100 text-orange-800" },
   { value: "to_dispose", label: "To Dispose", color: "bg-red-100 text-red-800" },
 ]
@@ -71,7 +70,7 @@ export function InventoryTable({ items, onItemsUpdate }: { items: Item[]; onItem
               </TableRow>
             </TableHeader>
             <TableBody>
-              {items.map((item) => (
+              {[...items].sort((a, b) => a.item_name.localeCompare(b.item_name)).map((item) => (
                 <TableRow key={item.id}>
                   <TableCell className="font-medium">{item.item_code}</TableCell>
                   <TableCell>{item.item_name}</TableCell>
