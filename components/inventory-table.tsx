@@ -70,7 +70,7 @@ export function InventoryTable({ items, onItemsUpdate }: { items: Item[]; onItem
               </TableRow>
             </TableHeader>
             <TableBody>
-              {[...items].sort((a, b) => a.item_name.localeCompare(b.item_name)).map((item) => (
+              {[...items].sort((a, b) => a.item_code.localeCompare(b.item_code)).map((item) => (
                 <TableRow key={item.id}>
                   <TableCell className="font-medium">{item.item_code}</TableCell>
                   <TableCell>{item.item_name}</TableCell>
