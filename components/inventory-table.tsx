@@ -84,7 +84,7 @@ export function InventoryTable({ items, onItemsUpdate }: { items: Item[]; onItem
                   </TableCell>
                   <TableCell className="text-right">
                     <Select
-                      defaultValue={item.item_condition}
+                      value={item.item_condition}
                       onValueChange={(value) => handleConditionChange(item.id, value)}
                       disabled={updatingId === item.id}
                     >
